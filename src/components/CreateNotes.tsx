@@ -52,7 +52,7 @@ const CreateNotes: React.FunctionComponent<ICreateNotesProps> = ({ notes, setNot
                     <Col xs={3}>
                         <Form.Group className="mb-3" controlId="formBasicTitle">
                             <Form.Label>Title</Form.Label>
-                            <Form.Control type="text" placeholder="Enter Title of Your Note" ref={ titleRef } />
+                            <Form.Control type="text" placeholder="Enter the Title of Your Note" ref={ titleRef } />
                         </Form.Group>
                     </Col>
                     <Col xs={8}>
