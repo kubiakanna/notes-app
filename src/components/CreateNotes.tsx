@@ -49,13 +49,13 @@ const CreateNotes: React.FunctionComponent<ICreateNotesProps> = ({ notes, setNot
                             <Form.Control type="color" id="colorInput" defaultValue="#dfdfdf" title="Choose your color" ref={ colorRef } />
                         </Form.Group>
                     </Col>
-                    <Col xs={3}>
+                    <Col xs={4}>
                         <Form.Group className="mb-3" controlId="formBasicTitle">
                             <Form.Label>Title</Form.Label>
                             <Form.Control type="text" placeholder="Enter the Title of Your Note" ref={ titleRef } />
                         </Form.Group>
                     </Col>
-                    <Col xs={8}>
+                    <Col xs={7}>
                         <Form.Group className="mb-3" controlId="formBasicText">
                             <Form.Label>Text</Form.Label>
                             <Form.Control placeholder="Enter your Note..." as="textarea" ref={ textRef } />
