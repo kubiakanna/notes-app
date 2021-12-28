@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useRef, useState } from 'react';
-import { Alert, Container, Form, Col, Row } from 'react-bootstrap';
+import { Container, Form, Col, Row } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { Note } from '../models/note.model';
 
@@ -19,17 +19,12 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
         date: '',
         archived: false
     });
-    const [error, setError] = useState<string>("");
     const titleRef = useRef<HTMLInputElement | null>(null);
     const textRef = useRef<HTMLTextAreaElement | null>(null);
     const colorRef = useRef<HTMLInputElement | null>(null);
 
     const handleSubmit = (e:React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if(titleRef.current?.value === "" || textRef.current?.value === "") {
-            return setError("Are you sure an empty note is what you want?");
-        }
-        setError("");
 
         const newNote: Note = {
             id: (new Date).toString(),
@@ -75,17 +70,17 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
                     <Col xs={4}>
                         <Form.Group className="mb-3" controlId="formBasicTitle">
                             <Form.Label>Title</Form.Label>
-                            <Form.Control name="title" type="text" placeholder="Enter the Title of Your Note" onChange={ handleChange } value={ note.title } ref={ titleRef } />
+                            <Form.Control name="title" type="text" placeholder="Enter the Title of Your Note" onChange={ handleChange } value={ note.title } ref={ titleRef } required/>
                         </Form.Group>
                     </Col>
                     <Col xs={7}>
                         <Form.Group className="mb-3" controlId="formBasicText">
                             <Form.Label>Text</Form.Label>
-                            <Form.Control name="text" placeholder="Enter your Note..." as="textarea" onChange={ handleChange } value={ note.text } ref={ textRef } />
+                            <Form.Control name="text" placeholder="Enter your Note..." as="textarea" rows={7} onChange={ handleChange } value={ note.text } ref={ textRef } required/>
                         </Form.Group>
                     </Col>
                 </Row>
-                <Row xs={5}>    
+                <Row xs={5} className="d-flex justify-content-center">    
                 <Button type="submit" variant="primary">Add Note</Button>
                 </Row>
             </Container>

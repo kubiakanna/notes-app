@@ -87,11 +87,11 @@ const EditNote: React.FC<IEditNoteProps> = ({ notes, setNotes }) => {
                     <Col xs={7}>
                         <Form.Group className="mb-3" controlId="formBasicText">
                             <Form.Label>Text</Form.Label>
-                            <Form.Control name="text" placeholder="Enter your Note..." as="textarea" onChange={ handleChange } value={ note.text } ref={ textRef } />
+                            <Form.Control name="text" placeholder="Enter your Note..." as="textarea" rows={10} onChange={ handleChange } value={ note.text } ref={ textRef } />
                         </Form.Group>
                     </Col>
                 </Row>
-                <Row xs={5}>    
+                <Row xs={5} className="d-flex justify-content-center mt-5">    
                 <Button type="submit" variant="primary">Update Note</Button>
                 </Row>
             </Container>

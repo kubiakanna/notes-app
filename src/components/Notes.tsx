@@ -30,7 +30,7 @@ const Notes: React.FC<INotesProps> = ({note, handleDelete, handleArchive }) => {
     }).catch((error) => console.log(error));
   }
 
-  const classesBg = { "backgroundColor": note.color } as React.CSSProperties;
+  const classesBg = { "backgroundColor": note.color, "white-space": 'pre-wrap' } as React.CSSProperties;
   let delBtn = "danger";
   let editBtn = "btn btn-primary mt-3 ms-3";
   let archBtn = "warning";

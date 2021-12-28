@@ -3,12 +3,13 @@ import { Note } from '../models/note.model';
 import Notes from './Notes';
 
 interface INotesListProps {
+    header: string,
     notes: Note[],
     handleDelete: (id: string) => void,
     handleArchive: (id: string) => void
 }
 
-const NotesList: React.FC<INotesListProps> = ({ notes, handleDelete, handleArchive }) => {
+const NotesList: React.FC<INotesListProps> = ({ header, notes, handleDelete, handleArchive }) => {
     
     const renderNotes = ():JSX.Element[] | string => {
         if(notes.length === 0) return 'Nothing here!';
@@ -18,7 +19,7 @@ const NotesList: React.FC<INotesListProps> = ({ notes, handleDelete, handleArchi
     }
   return (
       <div>
-        <h2 className="mt-3">Notes</h2>
+        <h2 className="mt-3">{ header }</h2>
         <div>{ renderNotes() }</div>
       </div>
   );

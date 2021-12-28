@@ -41,6 +41,7 @@ const HomePage = () => {
 
     let tsx = (
         <NotesList
+            header=''
             notes={ notes }
             handleDelete={ handleDelete }
             handleArchive={ toggleArchive }
@@ -50,6 +51,7 @@ const HomePage = () => {
     if(currentFilter === 'archive') {
         tsx =
             <NotesList
+                header="Archive"
                 notes={ notes.filter(notes => notes.archived) }
                 handleDelete={ handleDelete }
                 handleArchive={ toggleArchive }
@@ -57,6 +59,7 @@ const HomePage = () => {
     } else if(currentFilter === 'notes') {
         tsx =
             <NotesList
+                header="Notes"
                 notes={ notes.filter(notes => !notes.archived) }
                 handleDelete={ handleDelete }
                 handleArchive={ toggleArchive }
