@@ -1,15 +1,17 @@
 import * as React from 'react';
-import { useRef, useState } from 'react';
-import { Alert, Container, Form, Col, Row } from 'react-bootstrap';
+import { useRef, useState, useEffect } from 'react';
+import { Container, Form, Col, Row } from 'react-bootstrap';
+import { useParams } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import { Note } from '../models/note.model';
 
-interface ICreateNotesProps {
+interface IEditNoteProps {
     notes: Note[],
     setNotes: React.Dispatch<React.SetStateAction<Note[]>>
 }
 
-const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
+const EditNote: React.FC<IEditNoteProps> = ({ notes, setNotes }) => {
 
     const [note, setNote] = useState<Note>({
         id: '',
@@ -19,35 +21,39 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
         date: '',
         archived: false
     });
+    const params = useParams();
+    const noteId = params.id;
+    const navigate = useNavigate();
     const [error, setError] = useState<string>("");
     const titleRef = useRef<HTMLInputElement | null>(null);
     const textRef = useRef<HTMLTextAreaElement | null>(null);
     const colorRef = useRef<HTMLInputElement | null>(null);
 
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement>): void => {
-        e.preventDefault();
-        if(titleRef.current?.value === "" || textRef.current?.value === "") {
-            return setError("Are you sure an empty note is what you want?");
-        }
-        setError("");
+    useEffect(() => {
+        fetch(`http://localhost:3111/notes/${noteId}`)
+        .then((response) => {
+            return response.json();
+        }).then(data => {
+            console.log(data);
+            setNote({
+                id: data.id,
+                title: data.title,
+                text: data.text,
+                color: data.color,
+                date: (new Date()).toString(),
+                archived: data.archived
+            });
+        }).catch(error => console.log(error));
+    }, [noteId]);
 
-        const newNote: Note = {
-            id: (new Date).toString(),
-            title: note.title,
-            text: note.text,
-            color: (colorRef.current as HTMLInputElement).value,
-            date: (new Date()).toString(),
-            archived: false,
-        }
-        fetch('http://localhost:3111/notes', {
-            method: 'POST',
+    const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        fetch(`http://localhost:3111/notes/${noteId}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newNote)
+            body: JSON.stringify(note)
         }).then(() => {
-            (colorRef.current as HTMLInputElement).value = "#dfdfdf";
-            note.title = "";
-            note.text = "";
-            setNotes([...notes, newNote]);
+            navigate('/home');
         }).catch(error => console.log(error));
     }
 
@@ -55,13 +61,13 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
         setNote({
             ...note,
             [e.target.name]: e.target.value
-        })
+        });
     }
 
   return (
       <div>
-        <h2 className="mt-5">Create a Note</h2>
-        <Form className="mt-3 mb-3" onSubmit={(e) => handleSubmit(e)}>
+        <h2 className="mt-5 ms-3">Edit Your Note</h2>
+        <Form className="mt-3 mb-3" onSubmit={(e) => handleEdit(e)}>
             <Container>
                 <Row>
                     <Col xs={1}>
@@ -69,7 +75,7 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
                             <Form.Label htmlFor="colorInput">
                                <i className="fas fa-palette" />
                             </Form.Label>
-                            <Form.Control type="color" id="colorInput" defaultValue="#dfdfdf" title="Choose your color" ref={ colorRef } />
+                            <Form.Control name="color" type="color" id="colorInput" title="Choose your color" value={ note.color } onChange={ handleChange } ref={ colorRef } />
                         </Form.Group>
                     </Col>
                     <Col xs={4}>
@@ -86,7 +92,7 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
                     </Col>
                 </Row>
                 <Row xs={5}>    
-                <Button type="submit" variant="primary">Add Note</Button>
+                <Button type="submit" variant="primary">Update Note</Button>
                 </Row>
             </Container>
         </Form>
@@ -94,4 +100,4 @@ const CreateNotes: React.FC<ICreateNotesProps> = ({ notes, setNotes }) => {
   );
 };
 
-export default CreateNotes;
+export default EditNote;

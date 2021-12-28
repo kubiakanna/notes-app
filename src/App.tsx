@@ -1,35 +1,19 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import NotesList from './components/NotesList';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from "./pages/HomePage";
+import EditNote from './pages/EditNote';
+import { useState } from 'react';
 import { Note } from './models/note.model'
-import { Container, Row, Col } from 'react-bootstrap'
-import CreateNotes from './components/CreateNotes';
 
 function App() {
-  const [notes, setNotes] = useState<Note[]>([{
-    id: (new Date).toString(),
-    title: "Add notes",
-    text: "Create new notes!",
-    color: "#dfdfdf",
-    date: (new Date).toString()
-  }]);
 
+  const [notes, setNotes] = useState<Note[]>([]);
 
   return (
-    <div>
-      <Header />
-      <Container className="mt-5">
-        <Row>
-          <Col>
-          <CreateNotes notes={ notes } setNotes={ setNotes }/>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <NotesList notes={ notes } setNotes={ setNotes }/>
-          </Col>
-        </Row>
-      </Container>
+    <div className="App">
+      <Routes>
+        <Route path="/home" element={<HomePage />} />
+        <Route path="/notes/:id/edit" element={<EditNote notes={[]} setNotes={setNotes} />} />
+      </Routes>
     </div>
   );
 }

@@ -4,16 +4,16 @@ import Notes from './Notes';
 
 interface INotesListProps {
     notes: Note[],
-    setNotes: React.Dispatch<React.SetStateAction<Note[]>>
+    handleDelete: (id: string) => void,
+    handleArchive: (id: string) => void
 }
 
-const NotesList: React.FC<INotesListProps> = ({ notes, setNotes }) => {
-    const handleDelete = (id: string) => {
-       setNotes(notes.filter(note => note.id !== id));
-    }
-    const renderNotes = ():JSX.Element[] => {
+const NotesList: React.FC<INotesListProps> = ({ notes, handleDelete, handleArchive }) => {
+    
+    const renderNotes = ():JSX.Element[] | string => {
+        if(notes.length === 0) return 'Nothing here!';
         return notes.map(note => {
-            return <Notes key={ note.id } note={ note } handleDelete={ handleDelete } />
+            return <Notes key={ note.id } note={ note } handleDelete={ handleDelete } handleArchive={ handleArchive } />
         })
     }
   return (

@@ -12,3 +12,25 @@ i {
 .bar {
     background-color: #000057;
 }
+
+.btn-filter {
+    background-color: #000057;
+    border: none;
+}
+
+.btn-filter:focus {
+    background-color: #5454ba;
+}
+
+.btn-filter:hover {
+    background-color: #5454ba;
+}
+
+.active {
+    background-color: #5454ba !important;
+}
+
+.btn {
+    box-shadow: none !important;
+    outline: none !important;
+ }
